@@ -7,8 +7,7 @@
 Code-along project repository for *Kubernetes for Generative AI Solutions*
 by Ashok Srirama and Sukirti Gupta (Packt, 2025).
 
-One mini-project per chapter. Built function by function. Every concept
-earned, not skipped.
+One mini-project per chapter covering the key concepts in a practical hands-on deployment.
 
 ---
 
