@@ -1,46 +1,86 @@
-# Ch01 — Generative AI Fundamentals
+# Kubernetes for Generative AI Solutions
 
-## Pattern
-Structured LLM classification of GenAI use cases across the deployment stack.
+![Python](https://img.shields.io/badge/python-3.11.9-blue)
+![Kubernetes](https://img.shields.io/badge/kubernetes-EKS-orange)
+![License](https://img.shields.io/badge/license-MIT-green)
 
-## Mini-Project
-**GenAI Stack Decoder CLI** — a command-line tool that takes a plain-language
-GenAI use case description and classifies it across four deployment layers,
-identifying required Kubernetes resources, complexity, cost tier, and
-architectural reasoning.
+Code-along project repository for *Kubernetes for Generative AI Solutions*
+by Ashok Srirama and Sukirti Gupta (Packt, 2025).
 
-## Implementation
-| File | Purpose |
+One mini-project per chapter.
+
+---
+
+## Environment
+
+| Component | Detail |
 |---|---|
-| `models.py` | Pydantic model defining the structured classification output |
-| `stack_decoder.py` | CLI tool — five functions wired into an argparse entrypoint |
+| OS | Windows 11 + WSL2 (Ubuntu) |
+| Python | 3.11.9 via pyenv |
+| Cluster | Amazon EKS + Proxmox homelab |
+| GPU | NVIDIA RTX / Google Colab Pro (H100/A100) |
+| Venv | Single shared `.venv` at repo root |
 
-## Key Concepts
-- The four GenAI deployment layers: `prompt_engineering`, `rag`, `fine_tuning`,
-  `foundation_model`
-- Structured JSON output from an LLM enforced via Pydantic validation
-- Root `.env` loading pattern used across all chapters
-- Low temperature (0.2) for deterministic classification tasks
-- The K8s resource vocabulary grows with deployment complexity — prompt
-  engineering needs only a handful of resources; fine-tuning requires
-  isolation, stateful storage, and network controls
+---
 
-## Test Cases
-| Use Case | Layer | Complexity |
-|---|---|---|
-| Documentation chatbot | `rag` | medium |
-| Email summarization via API | `prompt_engineering` | low |
-| Custom medical diagnosis model | `fine_tuning` | high |
+## Setup
 
-## How to Run
 ```bash
+git clone <repo-url>
 cd k8s-genai-solutions
+
+python3 -m venv .venv
 source .venv/bin/activate
-python ch01_genai_fundamentals/stack_decoder.py "<your use case description>"
+pip install -r requirements.txt
+
+cp .env.example .env
+# Fill in your API keys in .env
 ```
 
-## Observations
-The model correctly scales the Kubernetes resource list with deployment
-complexity. Fine-tuning use cases produced Namespace, StatefulSet, and
-NetworkPolicy — resources driven by data sensitivity and compute requirements
-rather than just application serving needs.
+---
+
+## Chapter Index
+
+| Chapter | Title | Mini-Project | Environment |
+|---|---|---|---|
+| 01 | Generative AI Fundamentals | GenAI Stack Decoder CLI | Local |
+| 02 | Kubernetes — Introduction and Integration with GenAI | GenAI Container — Local First | Local / Docker |
+| 03 | Getting Started with Kubernetes in the Cloud | EKS Cluster + First LLM Deployment | EKS |
+| 04 | GenAI Model Optimization for Domain-Specific Use Cases | RAG Pipeline on K8s | EKS |
+| 05 | Working with GenAI on K8s — Chatbot Example | Fine-Tuning Job + RAG Chatbot Full Stack | EKS + Colab |
+| 06 | Scaling GenAI Applications on Kubernetes | Autoscaling Under Load | EKS |
+| 07 | Cost Optimization of GenAI Applications on Kubernetes | Kubecost + Goldilocks Right-Sizing | EKS |
+| 08 | Networking Best Practices for Deploying GenAI on K8s | Network Policy Enforcement | EKS |
+| 09 | Security Best Practices for Deploying GenAI on Kubernetes | Defense-in-Depth Hardening | EKS |
+| 10 | Optimizing GPU Resources for GenAI Applications | GPU Time-Slicing + DCGM Monitoring | Local / WSL2 |
+| 11 | GenAIOps — Data Management and GenAI Automation Pipeline | KubeRay Pipeline + MLflow Tracking | Proxmox |
+| 12 | Observability — Getting Visibility into GenAI on K8s | Full LGTM Stack + LangFuse Tracing | Proxmox |
+| 13 | High Availability and Disaster Recovery | Multi-AZ Resilience + Chaos Test | EKS |
+| 14 | Wrapping Up — GenAI Coding Assistants | AI-Assisted K8s Ops CLI | Local |
+
+---
+
+## Repository Structure
+
+```
+k8s-genai-solutions/
+├── .env                   # API keys — never committed
+├── .env.example           # Safe template to commit
+├── .gitignore
+├── README.md
+├── requirements.txt       # Shared venv for all chapters
+├── ch01_genai_fundamentals/
+├── ch02_k8s_genai_intro/
+├── ch03_eks_cluster_setup/
+├── ch04_model_optimization/
+├── ch05_chatbot_k8s/
+├── ch06_scaling/
+├── ch07_cost_optimization/
+├── ch08_networking/
+├── ch09_security/
+├── ch10_gpu_optimization/
+├── ch11_genaiops_pipelines/
+├── ch12_observability/
+├── ch13_ha_dr/
+└── ch14_coding_assistants/
+```
