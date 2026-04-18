@@ -1,3 +1,10 @@
+"""
+stack_decoder.py — CLI tool that classifies a GenAI use case across the deployment stack.
+
+Calls gpt-5.4-mini with a structured prompt and validates the response via Pydantic
+before formatting and printing a classification report.
+"""
+
 import os
 from dotenv import load_dotenv
 import json
@@ -32,6 +39,9 @@ Classify this use case across the GenAI deployment stack and respond with a JSON
 Respond with valid JSON only. No markdown, no backticks, no explanation outside the JSON object."""
 
 def classify_use_case(use_case: str, api_key: str) -> StackClassification:
+    """
+    Call the OpenAI API and return a validated StackClassification.
+    """
     client = OpenAI(api_key=api_key)
 
     response = client.chat.completions.create(
@@ -55,6 +65,9 @@ def classify_use_case(use_case: str, api_key: str) -> StackClassification:
     return StackClassification(**data)
 
 def format_report(use_case: str, result: StackClassification) -> str:
+    """
+    Format the Pydantic classification result as a human readable CLI report
+    """
     k8s_resources = "\n".join(f"  - {r}" for r in result.k8s_resources)
 
     return f"""
@@ -79,6 +92,9 @@ def format_report(use_case: str, result: StackClassification) -> str:
     """
 
 def main():
+    """
+    Parse the use case aurgument and run the classification pipeline
+    """
     parser = argparse.ArgumentParser(
         description="Classify a GenAI use case acceoss the deployment stack"
     )
